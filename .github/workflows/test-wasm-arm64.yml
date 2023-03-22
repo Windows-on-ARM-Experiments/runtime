@@ -1,6 +1,8 @@
 name: Testing dotnet with emsdk arm64
 
 on:
+  pull_request:
+    branches: [ "main" ]
   workflow_dispatch:
 
 jobs:
