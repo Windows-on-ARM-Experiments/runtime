@@ -14,4 +14,10 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Build dotnet with emsdk arm64
-        run: ls
+        run: |
+          git clone https://github.com/Windows-on-ARM-Experiments/emsdk
+          cd emsdk
+          ./emsdk install latest
+          cd ..
+          $env:EMSDK_PATH = $PWD.Path + "\emsdk"
+          ./build.cmd -bl -os browser -subset mono+libs+packs -c Release
