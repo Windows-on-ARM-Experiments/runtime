@@ -18,6 +18,7 @@ jobs:
           git clone https://github.com/Windows-on-ARM-Experiments/emsdk
           cd emsdk
           ./emsdk install latest
+          ./emsdk activate latest
           cd ..
           $env:EMSDK_PATH = $PWD.Path + "\emsdk"
           ./build.cmd -bl -os browser -subset mono+libs+packs -c Release
