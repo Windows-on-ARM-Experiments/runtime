@@ -15,6 +15,7 @@ jobs:
 
       - name: Build dotnet with emsdk arm64
         run: |
+          Set-PSDebug -Trace 1
           git clone https://github.com/Windows-on-ARM-Experiments/emsdk
           cd emsdk
           ./emsdk install latest
@@ -22,3 +23,11 @@ jobs:
           cd ..
           $env:EMSDK_PATH = $PWD.Path + "\emsdk"
           ./build.cmd -bl -os browser -subset mono+libs+packs -c Release
+
+      - name: Test dotnet with emsdk arm64
+        run: |
+          Set-PSDebug -Trace 1
+          .\dotnet.cmd build -c Release /t:RunSample -p:RunAOTCompilation=false .\src\mono\sample\wasm\console-node\Wasm.Console.Node.Sample.csproj
+          .\dotnet.cmd build -c Release -p:RunAOTCompilation=false .\src\mono\sample\wasm\browser\Wasm.Browser.Sample.csproj
+          .\dotnet.cmd build -c Release -p:RunAOTCompilation=false .\src\mono\sample\wasm\browser-advanced\Wasm.Advanced.Sample.csproj
+          .\dotnet.cmd build -c Release -p:RunAOTCompilation=false .\src\mono\sample\wasm\browser-bench\Wasm.Browser.Bench.Sample.csproj
